@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Libreria.LogicaNegocio.Entidades.Equipo>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Cantidad</th>
+            <th>Tipo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.marca</td>
+                <td>@item.modelo</td>
+                <td>@item.cantidadDisponible</td>
+                <td>@item.GetType().Name</td>
+                <td>
+                   
+                    <a asp-action="Edit" asp-route-id="@item.EquipoId">Editar</a> |
+                    <a asp-action="Delete"
+                           asp-route-id="@item.EquipoId"
+                           asp-route-tipo="@item.GetType().Name"
+                           onclick="return confirm('Seguro queres eliminar este equipo?')">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

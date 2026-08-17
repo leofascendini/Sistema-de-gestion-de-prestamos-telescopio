@@ -1,0 +1,110 @@
+﻿@model List<ClienteWebApp.Models.RankingObjetoCelesteModel>
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Ranking de Objetos Celestes";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Ranking de Objetos Celestes</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.Error
+        </div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-6">
+                        <h5 class="mb-0">
+                            Ranking general de observaciones
+                        </h5>
+                        <small class="text-muted">
+                            Ordenado por cantidad de observaciones
+                        </small>
+                    </div>
+
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <span class="badge bg-primary p-2">
+                            Objetos observados: @Model.Count
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+
+            <div class="card-body p-0">
+
+                <table class="table table-striped table-hover mb-0">
+
+                    <thead class="table-primary">
+                        <tr>
+                            <th style="width: 100px;">Posición</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th class="text-end">Observaciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @{
+                            int posicion = 1;
+                        }
+
+                        @foreach (var o in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>#@posicion</strong>
+                                </td>
+
+                                <td>
+                                    @o.Nombre
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-secondary">
+                                        @o.Tipo
+                                    </span>
+                                </td>
+
+                                <td class="text-end">
+                                    <span class="badge bg-primary fs-6">
+                                        @o.CantidadObservaciones
+                                    </span>
+                                </td>
+                            </tr>
+
+                            posicion++;
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+    else if (ViewBag.Error == null)
+    {
+        <div class="alert alert-info">
+            No existen objetos celestes observados.
+        </div>
+    }
+
+</div>

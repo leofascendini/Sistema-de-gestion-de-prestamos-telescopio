@@ -1,0 +1,134 @@
+﻿@model List<ClienteWebApp.Models.ListadoPrestamoModel>
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Préstamos Vigentes";
+}
+
+<h2>Prestamos Vigentes</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensaje"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No hay prestamos vigentes.
+    </div>
+}
+else
+{
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>Préstamo</th>
+                <th>Usuario</th>
+                <th>Telescopio</th>
+                <th>Montura</th>
+                <th>Cámara</th>
+                <th>Ocular</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.PrestamoId</td>
+                    <td>@p.Usuario</td>
+                    <td>@p.Telescopio</td>
+                    <td>@p.Montura</td>
+                    <td>@p.Camara</td>
+                    <td>@p.Ocular</td>
+
+                    <td style="max-width: 300px;">
+
+                        <form asp-action="Evaluar" method="post" class="mb-2">
+
+                            <input type="hidden" name="PrestamoId" value="@p.PrestamoId" />
+
+                            <select name="ObjetoCelesteId" class="form-control form-control-sm mb-1">
+                                <option value="">-- Seleccionar objeto celeste --</option>
+                            </select>
+
+                            <input type="datetime-local"
+                                   name="Fecha"
+                                   class="form-control form-control-sm mb-1"
+                                   value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+
+                            <button type="submit" class="btn btn-warning btn-sm w-100">
+                                Evaluar
+                            </button>
+                        </form>
+
+                        <form asp-action="Confirmar" method="post">
+
+                            <input type="hidden" name="PrestamoId" value="@p.PrestamoId" />
+
+                            @if (TempData[$"Eval_{p.PrestamoId}"] != null)
+                            {
+                                <button type="submit" class="btn btn-success btn-sm w-100">
+                                    Confirmar
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-success btn-sm w-100" disabled>
+                                    Primero evaluar
+                                </button>
+                            }
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        try {
+
+            const response = await fetch("https://apilibreria.somee.com/api/ObjetoCeleste/combo");
+
+            if (!response.ok) {
+                throw new Error("Error HTTP: " + response.status);
+            }
+
+            const objetos = await response.json();
+
+            const selects = document.querySelectorAll("select[name='ObjetoCelesteId']");
+
+            selects.forEach(select => {
+
+                objetos.forEach(obj => {
+
+                    const option = document.createElement("option");
+                    option.value = obj.objetoCelesteId;
+                    option.text = obj.nombre;
+
+                    select.appendChild(option);
+                });
+
+            });
+
+        } catch (error) {
+            console.error("Error cargando objetos celestes:", error);
+        }
+
+    });
+</script>

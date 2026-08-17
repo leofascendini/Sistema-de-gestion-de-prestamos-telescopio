@@ -1,0 +1,106 @@
+﻿@model List<AuditoriaModel>
+
+@{
+    ViewData["Title"] = "Auditoría de Préstamos";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Auditoría de Préstamos</h2>
+
+    <!-- FILTRO -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <form method="get" asp-action="List">
+
+                <div class="row align-items-end">
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Filtrar por coordinador (Id)</label>
+                        <input type="number" name="coordinadorId" class="form-control" placeholder="Ingrese ID..." />
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            Buscar
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- ERROR -->
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.Error
+        </div>
+    }
+
+    <!-- LISTADO -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <strong>Registros encontrados:</strong> @Model.Count
+            </div>
+
+            <div class="card-body p-0">
+
+                <table class="table table-striped table-hover mb-0">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Préstamo</th>
+                            <th>Fecha</th>
+                            <th>Usuario Coordinador</th>
+                            <th>Acción</th>
+                            <th>Detalle</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var a in Model)
+                        {
+                            <tr>
+                                <td>@a.PrestamoId</td>
+                                <td>@a.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@a.UsuarioCoordinador</td>
+                                <td>
+                                    <span class="badge bg-info text-dark">
+                                        @a.Accion
+                                    </span>
+                                </td>
+                                <td>
+                                    <a asp-action="Detail"
+                                       asp-route-prestamoId="@a.PrestamoId"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Ver
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No hay registros de auditoría.
+        </div>
+    }
+
+</div>

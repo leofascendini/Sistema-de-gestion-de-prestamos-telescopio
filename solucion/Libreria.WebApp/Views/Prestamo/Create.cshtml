@@ -1,0 +1,95 @@
+﻿@model Libreria.DTOs.DataTransferObjects.DTOsPrestamo.DTOPrestamoFormulario
+
+@{
+    ViewData["Title"] = "Crear Préstamo";
+}
+
+<h2>Crear Préstamo</h2>
+
+@if (ViewData["error"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["error"]
+    </div>
+}
+
+<form asp-action="Create" method="post">
+
+    <!-- USUARIO -->
+    <div class="form-group">
+        <label>Usuario</label>
+        <select name="UsuarioId" class="form-control">
+            <option value="">Seleccione un usuario</option>
+            @foreach (var u in Model.Usuarios)
+            {
+                <option value="@u.UsuarioId">@u.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <!-- TELESCOPIO -->
+    <div class="form-group">
+        <label>Telescopio</label>
+        <select name="TelescopioId" class="form-control">
+            <option value="">Seleccione un telescopio</option>
+            @foreach (var t in Model.Telescopios)
+            {
+                <option value="@t.EquipoId">@t.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <!-- MONTURA -->
+    <div class="form-group">
+        <label>Montura</label>
+        <select name="MonturaId" class="form-control">
+            <option value="">Seleccione una montura</option>
+            @foreach (var m in Model.Monturas)
+            {
+                <option value="@m.EquipoId">@m.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <!-- CAMARA (opcional) -->
+    <div class="form-group">
+        <label>Cámara</label>
+        <select name="CamaraId" class="form-control">
+            <option value="">Sin cámara</option>
+            @foreach (var c in Model.Camaras)
+            {
+                <option value="@c.EquipoId">@c.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <!-- OCULAR (opcional) -->
+    <div class="form-group">
+        <label>Ocular</label>
+        <select name="OcularId" class="form-control">
+            <option value="">Sin ocular</option>
+            @foreach (var o in Model.Oculares)
+            {
+                <option value="@o.EquipoId">@o.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <!-- FECHAS -->
+    <div class="form-group">
+        <label>Fecha Inicio</label>
+        <input type="date" name="FechaInicio" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Fecha Fin</label>
+        <input type="date" name="FechaFin" class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Crear Préstamo
+    </button>
+
+</form>

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Libreria.DTOs/Libreria.DTOs.csproj" />
+  <Project Path="Libreria.LogicaAccesoDatos/Libreria.AccesoDatos.csproj" />
+  <Project Path="Libreria.LogicaAplicacion/Libreria.LogicaAplicacion.csproj" />
+  <Project Path="Libreria.LogicaNegocio/Libreria.LogicaNegocio.csproj" />
+  <Project Path="Libreria.WebApi/Libreria.WebApi.csproj" Id="079f1c1a-be9b-4caa-837c-0f13ca87358d" />
+</Solution>

@@ -1,0 +1,103 @@
+﻿@model ClienteWebApp.Models.TelescopioPorSocioVistaModel
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Socios por Telescopio";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Socios por Telescopio</h2>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <form asp-action="List" method="get">
+
+                <div class="row align-items-end">
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">
+                            Seleccione un telescopio
+                        </label>
+
+                        <select name="telescopioId" class="form-select">
+
+                            <option value="">
+                                -- Seleccione un telescopio --
+                            </option>
+
+                            @foreach (var t in Model.Telescopios)
+                            {
+                                <option value="@t.EquipoId"
+                                        selected="@(t.EquipoId == Model.TelescopioId)">
+                                    @t.Nombre
+                                </option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+                            Buscar
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.Error
+        </div>
+    }
+
+    @if (Model.Socios != null && Model.Socios.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <strong>Socios encontrados:</strong> @Model.Socios.Count
+            </div>
+
+            <div class="card-body p-0">
+
+                <table class="table table-striped table-hover mb-0">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre Completo</th>
+                            <th>Email</th>
+                            <th>Telescopio</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var s in Model.Socios)
+                        {
+                            <tr>
+                                <td>@s.UsuarioId</td>
+                                <td>@s.NombreCompleto</td>
+                                <td>@s.Email</td>
+                                <td>@s.Telescopio</td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+}
+</div>

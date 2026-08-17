@@ -1,0 +1,160 @@
+﻿@model EquipoModel
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<div style="max-width: 700px; margin: 0 auto;">
+
+    <h2>Alta de Equipo</h2>
+
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-info">
+            @TempData["msg"]
+        </div>
+    }
+
+    <form asp-action="Create" method="post">
+
+        <!-- DATOS GENERALES -->
+        <div>
+            <label>Marca</label>
+            <input asp-for="Marca" class="form-control" />
+        </div>
+
+        <div>
+            <label>Modelo</label>
+            <input asp-for="Modelo" class="form-control" />
+        </div>
+
+        <div>
+            <label>Cantidad Disponible</label>
+            <input asp-for="CantidadDisponible" class="form-control" />
+        </div>
+
+        <!-- TIPO -->
+        <div>
+            <label>Tipo de Equipo</label>
+            <select asp-for="TipoEquipo" class="form-control" id="tipoEquipo">
+                <option value="">-- Seleccionar --</option>
+                <option value="Montura">Montura</option>
+                <option value="Telescopio">Telescopio</option>
+                <option value="Ocular">Ocular</option>
+                <option value="Camara">Camara</option>
+            </select>
+        </div>
+
+        <!-- MONTURA -->
+        <div id="camposMontura" style="display:none;">
+            <h4>Datos Montura</h4>
+
+            <label>Tipo Montura</label>
+            <select asp-for="TipoMontura" class="form-control">
+                <option value="0">Ecuatorial</option>
+                <option value="1">Altazimutal</option>
+                <option value="2">Hibrida</option>
+            </select>
+
+            <label>Carga Útil</label>
+            <input asp-for="CargaUtil" class="form-control" />
+
+            <label>GoTo</label>
+            <input asp-for="EsGoTo" type="checkbox" />
+        </div>
+
+        <!-- TELESCOPIO -->
+        <div id="camposTelescopio" style="display:none;">
+            <h4>Telescopio</h4>
+
+            <label>Apertura</label>
+            <input asp-for="Apertura" class="form-control" />
+
+            <label>Relación Focal</label>
+            <input asp-for="RelacionFocal" class="form-control" />
+
+            <label>Distancia Focal</label>
+            <input asp-for="DistanciaFocal" class="form-control" />
+
+            <label>Peso</label>
+            <input asp-for="Peso" class="form-control" />
+        </div>
+
+        <!-- OCULAR -->
+        <div id="camposOcular" style="display:none;">
+            <h4>Ocular</h4>
+
+            <label>Diámetro</label>
+            <input asp-for="Diametro" class="form-control" />
+
+            <label>Ángulo de Visión</label>
+            <input asp-for="AnguloVision" class="form-control" />
+        </div>
+
+        <!-- CAMARA -->
+        <div id="camposCamara" style="display:none;">
+            <h4>Cámara</h4>
+
+            <label>Tipo Sensor</label>
+            <select asp-for="TipoSensor" class="form-control">
+                <option value="">-- Seleccionar --</option>
+                <option value="0">CMOS</option>
+                <option value="1">CCD</option>
+            </select>
+
+            <label>Resolución</label>
+            <input asp-for="Resolucion" class="form-control" />
+
+            <label>Tamaño Pixel</label>
+            <input asp-for="TamañoPixel" class="form-control" />
+        </div>
+
+        <br />
+
+        <button type="submit" class="btn btn-primary">
+            Guardar
+        </button>
+
+    </form>
+
+</div>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const tipoEquipo = document.getElementById("tipoEquipo");
+
+            function mostrarCampos() {
+
+                document.getElementById("camposMontura").style.display = "none";
+                document.getElementById("camposTelescopio").style.display = "none";
+                document.getElementById("camposOcular").style.display = "none";
+                document.getElementById("camposCamara").style.display = "none";
+
+                switch (tipoEquipo.value) {
+                    case "Montura":
+                        document.getElementById("camposMontura").style.display = "block";
+                        break;
+
+                    case "Telescopio":
+                        document.getElementById("camposTelescopio").style.display = "block";
+                        break;
+
+                    case "Ocular":
+                        document.getElementById("camposOcular").style.display = "block";
+                        break;
+
+                    case "Camara":
+                        document.getElementById("camposCamara").style.display = "block";
+                        break;
+                }
+            }
+
+            tipoEquipo.addEventListener("change", mostrarCampos);
+
+            mostrarCampos();
+        });
+    </script>
+}

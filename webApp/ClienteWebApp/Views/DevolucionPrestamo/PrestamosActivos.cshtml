@@ -1,0 +1,85 @@
+﻿@model List<ClienteWebApp.Models.ListadoPrestamoModel>
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Prestamos Activos";
+}
+
+<h2>Préstamos Activos</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensaje"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No hay préstamos activos.
+    </div>
+}
+else
+{
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>Prestamo</th>
+                <th>Usuario</th>
+                <th>Telescopio</th>
+                <th>Montura</th>
+                <th>Cámara</th>
+                <th>Ocular</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.PrestamoId</td>
+                    <td>@p.Usuario</td>
+                    <td>@p.Telescopio</td>
+                    <td>@p.Montura</td>
+                    <td>@p.Camara</td>
+                    <td>@p.Ocular</td>
+
+                    <td style="max-width: 220px;">
+
+                        <form asp-action="Devolver" method="post">
+            
+                            <input type="hidden" name="PrestamoId" value="@p.PrestamoId" />
+
+                            <select name="ObjetoCelesteId" class="form-control form-control-sm mb-1">
+                                <option value="">Seleccione objeto celeste</option>
+
+                                @foreach (var obj in p.ObjetosCelestes ?? new List<ObjetoCelesteModel>())
+                                {
+                                    <option value="@obj.ObjetoCelesteId">@obj.Nombre</option>
+                                }
+                            </select>
+
+                            <input type="hidden" name="FechaDevolucion" value="@DateTime.Now" />
+                            <input type="text" name="Observacion" class="form-control form-control-sm mb-1" placeholder="Observación (opcional)" />
+
+                            <button type="submit" class="btn btn-danger btn-sm w-100">
+                                Devolver
+                            </button>
+
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,175 @@
+﻿@model EquipoModel
+
+@{
+    ViewData["Title"] = "Editar Equipo";
+}
+
+<h2 class="mb-4">Editar Equipo</h2>
+
+<form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="EquipoId" />
+
+    <div class="mb-3" style="max-width:400px;">
+        <label asp-for="Marca" class="form-label">Marca</label>
+        <input asp-for="Marca" class="form-control" />
+    </div>
+
+    <div class="mb-3" style="max-width:400px;">
+        <label asp-for="Modelo" class="form-label">Modelo</label>
+        <input asp-for="Modelo" class="form-control" />
+    </div>
+
+    <div class="mb-3" style="max-width:400px;">
+        <label asp-for="CantidadDisponible" class="form-label">Cantidad Disponible</label>
+        <input asp-for="CantidadDisponible" class="form-control" />
+    </div>
+
+    <div class="mb-4" style="max-width:400px;">
+        <label asp-for="TipoEquipo" class="form-label">Tipo de Equipo</label>
+        <select asp-for="TipoEquipo" class="form-control" id="tipoEquipo">
+            <option value="Montura">Montura</option>
+            <option value="Telescopio">Telescopio</option>
+            <option value="Ocular">Ocular</option>
+            <option value="Camara">Camara</option>
+        </select>
+    </div>
+
+    <!-- MONTURA -->
+    <div id="camposMontura" class="border rounded p-3 mb-4">
+
+        <h4 class="mb-3">Montura</h4>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label class="form-label">Tipo de Montura</label>
+            <select asp-for="TipoMontura" class="form-control">
+                <option value="Ecuatorial">Ecuatorial</option>
+                <option value="Altazimutal">Altazimutal</option>
+                <option value="Hibrida">Hibrida</option>
+            </select>
+        </div>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="CargaUtil" class="form-label">Carga Útil</label>
+            <input asp-for="CargaUtil" class="form-control" />
+        </div>
+
+        <div class="form-check">
+            <input asp-for="EsGoTo" class="form-check-input" />
+            <label asp-for="EsGoTo" class="form-check-label">
+                Es GoTo
+            </label>
+        </div>
+
+    </div>
+
+    <!-- TELESCOPIO -->
+    <div id="camposTelescopio" class="border rounded p-3 mb-4">
+
+        <h4 class="mb-3">Telescopio</h4>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="Apertura" class="form-label">Apertura</label>
+            <input asp-for="Apertura" class="form-control" />
+        </div>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="RelacionFocal" class="form-label">Relación Focal</label>
+            <input asp-for="RelacionFocal" class="form-control" />
+        </div>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="DistanciaFocal" class="form-label">Distancia Focal</label>
+            <input asp-for="DistanciaFocal" class="form-control" />
+        </div>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="Peso" class="form-label">Peso</label>
+            <input asp-for="Peso" class="form-control" />
+        </div>
+
+    </div>
+
+    <!-- OCULAR -->
+    <div id="camposOcular" class="border rounded p-3 mb-4">
+
+        <h4 class="mb-3">Ocular</h4>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="Diametro" class="form-label">Diámetro</label>
+            <input asp-for="Diametro" class="form-control" />
+        </div>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="AnguloVision" class="form-label">Ángulo de Visión</label>
+            <input asp-for="AnguloVision" class="form-control" />
+        </div>
+
+    </div>
+
+    <!-- CAMARA -->
+    <div id="camposCamara" class="border rounded p-3 mb-4">
+
+        <h4 class="mb-3">Cámara</h4>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="TipoSensor" class="form-label">Tipo de Sensor</label>
+            <select asp-for="TipoSensor" class="form-control">
+                <option value="CMOS">CMOS</option>
+                <option value="CCD">CCD</option>
+            </select>
+        </div>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="Resolucion" class="form-label">Resolución</label>
+            <input asp-for="Resolucion" class="form-control" />
+        </div>
+
+        <div class="mb-3" style="max-width:400px;">
+            <label asp-for="TamañoPixel" class="form-label">Tamaño Pixel</label>
+            <input asp-for="TamañoPixel" class="form-control" />
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Guardar cambios
+    </button>
+
+</form>
+
+<script>
+
+    function actualizarCampos() {
+
+        const tipo = document.getElementById("tipoEquipo").value;
+
+        document.getElementById("camposMontura").style.display = "none";
+        document.getElementById("camposTelescopio").style.display = "none";
+        document.getElementById("camposOcular").style.display = "none";
+        document.getElementById("camposCamara").style.display = "none";
+
+        if (tipo === "Montura")
+            document.getElementById("camposMontura").style.display = "block";
+
+        if (tipo === "Telescopio")
+            document.getElementById("camposTelescopio").style.display = "block";
+
+        if (tipo === "Ocular")
+            document.getElementById("camposOcular").style.display = "block";
+
+        if (tipo === "Camara")
+            document.getElementById("camposCamara").style.display = "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        actualizarCampos();
+
+        document
+            .getElementById("tipoEquipo")
+            .addEventListener("change", actualizarCampos);
+
+    });
+
+</script>

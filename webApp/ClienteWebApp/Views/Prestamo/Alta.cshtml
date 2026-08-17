@@ -1,0 +1,123 @@
+﻿@model AltaPrestamoModel
+
+@{
+    ViewData["Title"] = "Alta Prestamo";
+}
+
+<h2>Alta de Prestamo</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensaje"]
+    </div>
+
+    TempData.Remove("Mensaje");
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<div id="msgStock" class="alert alert-warning d-none"></div>
+
+<form asp-action="Alta" method="post">
+
+    <div class="form-group mb-2" style="max-width: 300px;">
+        <label>Usuario</label>
+        <select asp-for="UsuarioId" id="UsuarioId" class="form-control">
+            <option value="">-- Seleccionar usuario --</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-2" style="max-width: 300px;">
+        <label>Telescopio</label>
+        <select asp-for="TelescopioId" id="TelescopioId" class="form-control">
+            <option value="">-- Seleccionar telescopio --</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-2" style="max-width: 300px;">
+        <label>Montura</label>
+        <select asp-for="MonturaId" id="MonturaId" class="form-control">
+            <option value="">-- Seleccionar montura --</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-2" style="max-width: 300px;">
+        <label>Cámara</label>
+        <select asp-for="CamaraId" id="CamaraId" class="form-control">
+            <option value="">-- Seleccionar cámara --</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-2" style="max-width: 300px;">
+        <label>Ocular</label>
+        <select asp-for="OcularId" id="OcularId" class="form-control">
+            <option value="">-- Seleccionar ocular --</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-3" style="max-width: 300px;">
+        <label>Fecha Fin</label>
+        <input asp-for="FechaFin" type="datetime-local" class="form-control form-control-sm" />
+    </div>
+
+    <button id="btnGuardar" type="submit" class="btn btn-primary btn-sm">
+        Crear Prestamo
+    </button>
+
+</form>
+
+<script>
+        document.addEventListener("DOMContentLoaded", async () => {
+
+        try {
+
+            const apiBaseUrl = "https://apilibreria.somee.com/api";
+
+            const resUsuarios = await fetch(`${apiBaseUrl}/Usuario/combo`);
+            if (!resUsuarios.ok) throw new Error("Error usuarios");
+
+            const usuarios = await resUsuarios.json();
+
+            const usuarioSelect = document.getElementById("UsuarioId");
+
+            usuarios.forEach(u => {
+                const opt = document.createElement("option");
+                opt.value = u.usuarioId;
+                opt.text = u.nombre;
+                usuarioSelect.appendChild(opt);
+            });
+
+            const resEquipos = await fetch(`${apiBaseUrl}/GestionEquipo/combo`);
+            if (!resEquipos.ok) throw new Error("Error equipos");
+
+            const equipos = await resEquipos.json();
+
+            const tel = document.getElementById("TelescopioId");
+            const mon = document.getElementById("MonturaId");
+            const cam = document.getElementById("CamaraId");
+            const ocu = document.getElementById("OcularId");
+
+            equipos.forEach(e => {
+
+                const opt = document.createElement("option");
+                opt.value = e.equipoId;
+                opt.text = e.marca + " " + e.modelo;
+
+                if (e.tipoEquipo === "Telescopio") tel.appendChild(opt);
+                else if (e.tipoEquipo === "Montura") mon.appendChild(opt);
+                else if (e.tipoEquipo === "Camara") cam.appendChild(opt);
+                else if (e.tipoEquipo === "Ocular") ocu.appendChild(opt);
+            });
+
+        } catch (error) {
+            console.error("Error cargando combos:", error);
+        }
+
+    });
+</script>

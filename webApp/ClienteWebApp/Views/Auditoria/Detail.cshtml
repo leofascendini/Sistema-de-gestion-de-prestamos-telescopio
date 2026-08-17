@@ -1,0 +1,79 @@
+﻿@model List<AuditoriaModel>
+
+@{
+    ViewData["Title"] = "Detalle Auditoría";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Detalle de Auditoría del Préstamo</h2>
+
+    <a asp-action="List" class="btn btn-secondary mb-3">
+        Volver
+    </a>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <strong>Movimientos:</strong> @Model.Count
+            </div>
+
+            <div class="card-body p-0">
+
+                <table class="table table-striped table-hover mb-0">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Usuario Coordinador</th>
+                            <th>Acción</th>
+                            <th>Observación</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var a in Model)
+                        {
+                            <tr>
+                                <td>@a.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+
+                                <td>@a.UsuarioCoordinador</td>
+
+                                <td>
+                                    <span class="badge bg-primary">
+                                        @a.Accion
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(a.Observacion))
+                                    {
+                                        @a.Observacion
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Sin observación</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No hay movimientos para este préstamo.
+        </div>
+    }
+
+</div>

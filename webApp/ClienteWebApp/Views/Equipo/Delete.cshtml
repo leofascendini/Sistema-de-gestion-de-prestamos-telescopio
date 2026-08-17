@@ -1,0 +1,35 @@
+﻿@model EquipoModel
+
+
+
+<h2>Eliminar Equipo</h2>
+
+<h4>¿Está seguro de eliminar este equipo?</h4>
+
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Id</dt>
+    <dd class="col-sm-9">@Model.EquipoId</dd>
+
+    <dt class="col-sm-3">Marca</dt>
+    <dd class="col-sm-9">@Model.Marca</dd>
+
+    <dt class="col-sm-3">Modelo</dt>
+    <dd class="col-sm-9">@Model.Modelo</dd>
+
+    <dt class="col-sm-3">Tipo</dt>
+    <dd class="col-sm-9">@Model.TipoEquipo</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="EquipoId" />
+
+    <button type="submit" class="btn btn-danger">
+        Eliminar
+    </button>
+
+    <a asp-action="List" class="btn btn-secondary">
+        Cancelar
+    </a>
+</form>

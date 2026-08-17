@@ -1,0 +1,90 @@
+﻿@model List<ClienteWebApp.Models.PrestamoEntreFechaModel>
+
+@{
+    ViewData["Title"] = "Prestamos por Mes";
+}
+
+<h2>Préstamos por Mes</h2>
+
+<form asp-action="List" method="get">
+
+    <div style="width:200px;">
+        <label>Mes</label>
+        <input type="number"
+               name="mes"
+               min="1"
+               max="12"
+               class="form-control" />
+    </div>
+
+    <div style="width:200px;">
+        <label>Año</label>
+        <input type="number"
+               name="anio"
+               class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Buscar
+    </button>
+
+</form>
+
+<br />
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Error
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-sm table-bordered">
+
+        <thead>
+            <tr>
+                <th>Préstamo</th>
+                <th>Usuario</th>
+                <th>Telescopio</th>
+                <th>Montura</th>
+                <th>Cámara</th>
+                <th>Ocular</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Atrasado</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.PrestamoId</td>
+                    <td>@p.Usuario</td>
+                    <td>@p.Telescopio</td>
+                    <td>@p.Montura</td>
+                    <td>@p.Camara</td>
+                    <td>@p.Ocular</td>
+                    <td>@p.FechaInicio.ToShortDateString()</td>
+                    <td>@p.FechaFin.ToShortDateString()</td>
+
+                    <td>
+                        @if (p.EstaAtrasado)
+                        {
+                            <span class="badge bg-danger">Sí</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">No</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

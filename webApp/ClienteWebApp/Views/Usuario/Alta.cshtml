@@ -1,0 +1,88 @@
+﻿@model ClienteWebApp.Models.UsuarioAltaModel
+
+@{
+    ViewData["Title"] = "Alta de Usuario";
+}
+
+<div class="container">
+
+    <div style="max-width: 600px; margin: 0 auto;">
+
+        <h2>Alta de Usuario</h2>
+
+        @if (TempData["Mensaje"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Mensaje"]
+            </div>
+        }
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-action="Alta" method="post">
+
+            <div class="form-group mb-3">
+                <label asp-for="Nombre"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Apellido"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Direccion"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Telefono"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="NombreUsuario"></label>
+                <input asp-for="NombreUsuario" class="form-control" />
+                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Contraseña"></label>
+                <input asp-for="Contraseña" type="password" class="form-control" />
+                <span asp-validation-for="Contraseña" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="RolId"></label>
+                <select asp-for="RolId" class="form-control">
+                    <option value="">Seleccione un rol</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Coordinador</option>
+                    <option value="3">Socio</option>
+                </select>
+                <span asp-validation-for="RolId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Crear Usuario
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
